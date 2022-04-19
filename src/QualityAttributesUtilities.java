@@ -12,7 +12,7 @@ public final class QualityAttributesUtilities {
     static final String Scalability = "Scalability";
 
     //this will be our input
-    private static List<QualityAttributePair> getQAPair() {
+    public static List<QualityAttributePair> getQAPair() {
         List<QualityAttributePair> qaPair = new ArrayList<>();
         qaPair.add(new QualityAttributePair(Usability, Usability, 1.0));
         qaPair.add(new QualityAttributePair(Usability, Maintainability, 2.0));
@@ -29,9 +29,7 @@ public final class QualityAttributesUtilities {
         return qaPair;
     }
 
-    public static Triplet[][] getQAMatrix() {
-        List<QualityAttributePair> qaPair = getQAPair();
-
+    public static Triplet[][] getQAMatrix(List<QualityAttributePair> qaPair) {
         int distinctQASize = getNumberOfQualityAttributes(qaPair) ;
         Triplet[][] qaMatrix = new Triplet[distinctQASize][distinctQASize];
         int index = 0;
