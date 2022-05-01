@@ -1,4 +1,4 @@
-
+package com.archi.main.algorithms;
 public class AhpAlgorithm {
 
     public static double[] runAhp(double[][] matrix1, double[][] matrix2) {

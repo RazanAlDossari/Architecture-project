@@ -1,4 +1,7 @@
+package com.archi.main.algorithms.data_model;
 
+//comparison main QA
+//Ex: Usability, Maintainability, 2.0
 public class QualityAttributePair {
 
     private final String QualityAttributeA;

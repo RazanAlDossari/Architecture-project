@@ -1,3 +1,5 @@
+package com.archi.main.algorithms;
+
 public class Triplet {
 
     private final Double lower;
