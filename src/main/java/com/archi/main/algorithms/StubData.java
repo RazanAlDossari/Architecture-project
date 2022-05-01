@@ -49,6 +49,30 @@ public class StubData {
         return qaPair;
     }
 
+    public static void getInputNFRs() {
+        //todo: we need to assign the scale of each QA and SUB-QA
+        List<Pair<String, Double>> scaleQAs = new ArrayList<>();
+        scaleQAs.add(new Pair<>(Usability, 9.0));
+        scaleQAs.add(new Pair<>(Maintainability, 7.0));
+        scaleQAs.add(new Pair<>(Cost, 2.0));
+        scaleQAs.add(new Pair<>(Scalability, 5.0));
+        List<QualityAttributePair> qaPair = new ArrayList<>();
+
+        for (int i = 0; i < scaleQAs.size(); i++) {
+            for (int j = i; j < scaleQAs.size(); j++) {
+                double diff = scaleQAs.get(i).getSecond() - scaleQAs.get(j).getSecond() + 1;
+                if (diff < 1) {
+                    diff = 1 / (scaleQAs.get(j).getSecond() - scaleQAs.get(i).getSecond() + 1);
+                }
+
+                QualityAttributePair test = new QualityAttributePair(scaleQAs.get(i).getFirst(), scaleQAs.get(j).getFirst(), diff);
+                qaPair.add(test);
+                System.out.println("pair comparison: " + test.getQualityAttributeA() + "||" + test.getQualityAttributeB() + "||" + test.getScale());
+            }
+        }
+    }
+
+
     public static List<QualityAttributeSubPair> getQASubPair() {
         List<QualityAttributeSubPair> qaPair = new ArrayList<>();
 

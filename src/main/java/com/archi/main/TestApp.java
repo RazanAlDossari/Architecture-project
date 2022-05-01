@@ -4,13 +4,16 @@ import com.archi.main.algorithms.*;
 import com.archi.main.algorithms.data_model.*;
 import java.util.*;
 import static com.archi.main.algorithms.QualityAttributesUtilities.calculateScore;
+import static com.archi.main.algorithms.StubData.getInputNFRs;
+import static com.archi.main.algorithms.StubData.getQAPair;
 import static com.archi.main.algorithms.Utils.getDataForJson;
 
 public class TestApp {
     public static void main(String[] args) {
         //main QAPair
         getDataForJson();
-        List<QualityAttributePair> qaPair = StubData.getQAPair();
+        getInputNFRs();
+        List<QualityAttributePair> qaPair = getQAPair();
         //list of main QA with their weight
         List<MainQAWithSingleWeight> mainQAWithSingleWeight = FahpAlgorithm.runMainFahp(qaPair);
 
