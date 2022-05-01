@@ -1,7 +1,6 @@
 package com.archi.main.algorithms;
 
 import com.archi.main.algorithms.data_model.*;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +13,10 @@ public class FahpAlgorithm {
         System.out.println("------------------------getQAMatrix-------------------------");
 
         Pair<String[], Triplet[][]> pair = QualityAttributesUtilities.getQAMatrix(qaPair);
-        //String[] mainQA= pair.getFirst();
-        //Triplet[][] cellMap = pair.getSecond();
         List<Pair<String, Double>> weightedQAForFAHP = runFahp(pair);
 
         for (Pair<String, Double> stringDoublePair : weightedQAForFAHP) {
-            //System.out.println("######" + mainQA[index] + "######"+weightedQAForFAHP[index]);
-            // mainQAWithSingleWeight.add(new MainQAWithSingleWeight(mainQA[index]., weightedQAForFAHP[index].getSecond()));
-
-            mainQAWithSingleWeight.add(new MainQAWithSingleWeight(stringDoublePair.getFirst(), stringDoublePair));
+         mainQAWithSingleWeight.add(new MainQAWithSingleWeight(stringDoublePair.getFirst(), stringDoublePair));
         }
 
         return mainQAWithSingleWeight;
@@ -30,12 +24,7 @@ public class FahpAlgorithm {
 
 
     public static List<Pair<String, Double>> runSubFahp(List<QualityAttributePair> qaPair) {
-      //  Triplet[][] cellMap = QualityAttributesUtilities.getQAMatrix(qaPair).getSecond();
-        //return runFahp(cellMap);
-
-       // Triplet[][] cellMap = QualityAttributesUtilities.getQAMatrix(qaPair).getSecond();
-        return runFahp(QualityAttributesUtilities.getQAMatrix(qaPair));
-
+      return runFahp(QualityAttributesUtilities.getQAMatrix(qaPair));
     }
 
     public static List<Pair<String, Double>> runFahp(Pair<String[], Triplet[][]> pair) {
@@ -57,7 +46,6 @@ public class FahpAlgorithm {
         Double[][] fDegreeOfImportance = getDegreeOfImportance(fCompositeExtension);
         System.out.println("------------------------get Minimum Weight-------------------------");
         double[] minimumWeights = getMinimumWeight(fDegreeOfImportance);
-
         System.out.println("------------------------get Weight Normalization -------------------------");
         return getWeightNormalization(pair.getFirst(), minimumWeights);
 
@@ -219,9 +207,7 @@ public class FahpAlgorithm {
     }
 
     private static List<Pair<String, Double>> getWeightNormalization(String[] qaAttribute, double[] minimumWeights) {
-        // private static List<Pair<String, Double>> getWeightNormalization(List<Pair<String, Double>> minimumWeights) {
-        //need to add attribute
-        /// Pair<String, Double>[] result = new Pair<String, Double>[minimumWeights.length];
+        //todo: pair(attribute, score)
         List<Pair<String, Double>> result = new ArrayList<>();
         double totalWeight = 0.0;
         for (double minimumWeight : minimumWeights) {
@@ -232,7 +218,6 @@ public class FahpAlgorithm {
             for (int i = 0; i < minimumWeights.length; i++) {
                 double total = Double.parseDouble(new DecimalFormat("###.###").format((minimumWeights[i] / totalWeight)));
                 result.add(new Pair<>(qaAttribute[i], total));
-                // result[i] = Double.parseDouble(new DecimalFormat("###.###").format((minimumWeights[i] / totalWeight)));
                 System.out.println("[" + result.get(i).getFirst() + "," + result.get(i).getSecond() + "]");
             }
         return result;
@@ -250,22 +235,18 @@ public class FahpAlgorithm {
         List<MainQAWithSubWeights> mainQAsWithSubWeight = new ArrayList<>();
         List<MainQAWithSubWeights> finalWeightForAllSubQA = new ArrayList<>();
 
-        for (int index = 0; index < qaMapper.size(); index++) {
-            List<Pair<String, Double>> weightedSubQAForFAHP = FahpAlgorithm.runSubFahp(qaMapper.get(index).getSubQAList());
-            mainQAsWithSubWeight.add(new MainQAWithSubWeights(qaMapper.get(index).getMainQA(), weightedSubQAForFAHP));
-            System.out.printf("------------------------weightedQAForFAHP Done %s-------------------------", qaMapper.get(index).getMainQA());
+        for (MainQAWithSubQAMapper mainQAWithSubQAMapper : qaMapper) {
+            List<Pair<String, Double>> weightedSubQAForFAHP = FahpAlgorithm.runSubFahp(mainQAWithSubQAMapper.getSubQAList());
+            mainQAsWithSubWeight.add(new MainQAWithSubWeights(mainQAWithSubQAMapper.getMainQA(), weightedSubQAForFAHP));
+            System.out.printf("------------------------weightedQAForFAHP Done %s-------------------------", mainQAWithSubQAMapper.getMainQA());
             System.out.println();
-
         }
 
         //now i will multiply with the weight of the main QA
-        for (int index = 0; index < mainQAsWithSubWeight.size(); index++) {
-            MainQAWithSubWeights main = mainQAsWithSubWeight.get(index);
+        for (MainQAWithSubWeights main : mainQAsWithSubWeight) {
             List<Pair<String, Double>> subListWeight = main.getSubQAList();
-            //   double[] multipliedSubListWeigh = new double[subListWeight.length];
+            //todo: pair(attribute, score of the sub * score of the main)
             List<Pair<String, Double>> multipliedSubListWeigh = new ArrayList<>();
-            // System.out.println("***##" + main.getMainQA() + "##***");
-
             //get the weight from the main in the main/weight list
 
             mainQAWithSingleWeight.stream()
@@ -273,22 +254,17 @@ public class FahpAlgorithm {
                     .findFirst()
                     .ifPresent(p -> {
                         for (int innerIndex = 0; innerIndex < main.getSubQAList().size(); innerIndex++) {
-                            //  System.out.println("\t---" + main.getMainQA() + "--- SUB WEIGHT " + subListWeight[innerIndex]);
-                            //System.out.println("\t\t\t\t##### MAIN WEIGHT " + p.getMainQAWeight() + "#####");
-                            // multipliedSubListWeigh[innerIndex] = subListWeight[innerIndex] * p.getMainQAWeight();
                             Pair<String, Double> currentObj = subListWeight.get(innerIndex);
                             multipliedSubListWeigh.add(new Pair<>(currentObj.getFirst(), (currentObj.getSecond() * p.getMainQAWeight().getSecond())));
                         }
-
                     });
             finalWeightForAllSubQA.add(new MainQAWithSubWeights(main.getMainQA(), multipliedSubListWeigh));
         }
-        for (MainQAWithSubWeights finalTest : finalWeightForAllSubQA) {
-            System.out.println("-----------" + finalTest.getMainQA());
-            for (int innerIndex = 0; innerIndex < finalTest.getSubQAList().size(); innerIndex++) {
-                System.out.print("\t\t\t\t" + finalTest.getSubQAList().get(innerIndex).getFirst());
-                System.out.println("\t\t\t\t" + finalTest.getSubQAList().get(innerIndex).getSecond());
-
+        for (MainQAWithSubWeights finalWeight : finalWeightForAllSubQA) {
+            System.out.println("-----------" + finalWeight.getMainQA());
+            for (int innerIndex = 0; innerIndex < finalWeight.getSubQAList().size(); innerIndex++) {
+                System.out.print("\t\t\t\t" + finalWeight.getSubQAList().get(innerIndex).getFirst());
+                System.out.println("\t\t\t\t" + finalWeight.getSubQAList().get(innerIndex).getSecond());
             }
         }
         return finalWeightForAllSubQA;

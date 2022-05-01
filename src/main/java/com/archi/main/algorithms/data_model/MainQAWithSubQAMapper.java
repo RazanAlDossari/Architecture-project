@@ -7,6 +7,11 @@ public class MainQAWithSubQAMapper {
     private final String mainQA;
     private final List<QualityAttributePair> subQAList;
 
+    public MainQAWithSubQAMapper(String mainQA, List<QualityAttributePair> subQAList) {
+        this.mainQA = mainQA;
+        this.subQAList = subQAList;
+    }
+
     public String getMainQA() {
         return mainQA;
     }
@@ -14,8 +19,5 @@ public class MainQAWithSubQAMapper {
     public List<QualityAttributePair> getSubQAList() {
         return subQAList;
     }
-    public MainQAWithSubQAMapper(String mainQA, List<QualityAttributePair> subQAList) {
-        this.mainQA = mainQA;
-        this.subQAList = subQAList;
-    }
+
 }

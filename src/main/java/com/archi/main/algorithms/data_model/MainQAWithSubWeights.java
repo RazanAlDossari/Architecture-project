@@ -7,9 +7,6 @@ import java.util.List;
 public class MainQAWithSubWeights {
 
     private final String mainQA;
-
-
-    // private final double[] subQAList;
     private final List<Pair<String, Double>> subQAList;
 
     public String getMainQA() {

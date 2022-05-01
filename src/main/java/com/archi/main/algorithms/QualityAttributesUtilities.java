@@ -5,7 +5,6 @@ import com.archi.main.algorithms.data_model.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static com.archi.main.algorithms.StubData.setStylesRanks;
 
 public final class QualityAttributesUtilities {
@@ -28,8 +27,7 @@ public final class QualityAttributesUtilities {
             }
             System.out.println();
         }
-        Pair<String[], Triplet[][]> pair = new Pair<>(mainQA, qaMatrix);
-        return pair;
+        return new Pair<>(mainQA, qaMatrix);
     }
 
     public static String[] getMainQualityAttributes(final List<QualityAttributePair> qaPairs) {
@@ -68,7 +66,6 @@ public final class QualityAttributesUtilities {
 
     public static LinkedHashMap<String, List<QualityAttributePair>> covertToMapper(List<QualityAttributeSubPair> qaPairs) {
         LinkedHashMap<String, List<QualityAttributePair>> qaPairsByMainQa = new LinkedHashMap<>();
-
         for (QualityAttributeSubPair qaPair : qaPairs) {
             List<QualityAttributePair> users = qaPairsByMainQa.computeIfAbsent(qaPair.getMainQualityAttribute(), k -> new ArrayList<>());
             users.add(new QualityAttributePair(qaPair.getQualityAttributeA(), qaPair.getQualityAttributeB(), qaPair.getScale()));
@@ -79,49 +76,35 @@ public final class QualityAttributesUtilities {
     public static List<Pair<String, Double>> calculateScore(List<MainQAWithSubWeights> finalWeightForEachSubQA) {
         ArrayList<ArchitectureStyle> styles = setStylesRanks();
         List<Pair<String, Double>> archiResult = new ArrayList<>();
-        for (int i = 0; i < styles.size(); i++) {
-            ArrayList<MainCriteria> selectedStyleMainAttributes = styles.get(i).mainCriteria;
+        for (ArchitectureStyle style : styles) {
+            ArrayList<MainCriteria> selectedStyleMainAttributes = style.mainCriteria;
             double total = 0;
 
-            for (int inner = 0; inner < selectedStyleMainAttributes.size(); inner++) {
+            for (MainCriteria selectedStyleMainAttribute : selectedStyleMainAttributes) {
                 //todo: get main Attribute and subList to multiply it with the score
-                String selectedMainName = selectedStyleMainAttributes.get(inner).name;
-                //System.out.println("@@" +styles.get(i).name+"@@"+selectedMainName);
-                ArrayList<SubCriteria> selectedSubList = selectedStyleMainAttributes.get(inner).subCriteria;
+                String selectedMainName = selectedStyleMainAttribute.name;
+
+                ArrayList<SubCriteria> selectedSubList = selectedStyleMainAttribute.subCriteria;
 
                 List<MainQAWithSubWeights> result = finalWeightForEachSubQA.stream()
                         .filter(item -> item.getMainQA().equals(selectedMainName)).toList();
 
                 List<Pair<String, Double>> subAttribute = result.get(0).getSubQAList();
                 //todo: loop to each subCriteria of the style
-
-                for (int innerSub = 0; innerSub < selectedSubList.size(); innerSub++) {
-                    SubCriteria currentSub = selectedSubList.get(innerSub);
+                for (SubCriteria currentSub : selectedSubList) {
                     List<Pair<String, Double>> resultSub = subAttribute.stream()
                             .filter(item ->
                                     item.getFirst().equals(currentSub.name)
-                            )
-                            .collect(Collectors.toList());
-//                    System.out.println("@@$$" +resultSub.size());
-//                    System.out.println("@@$$" +currentSub.name);
-
-//                    for (Pair<String, Double> resultSu : subAttribute) {
-//                        System.out.println("######!!!!!!" + resultSu.getFirst() + "######" + resultSu.getSecond());
-//                    }
-//                    System.out.println();
+                            ).toList();
                     if (resultSub.size() != 0)
                         total += currentSub.score * resultSub.get(0).getSecond();
-
                 }
-
-
             }
-            archiResult.add(new Pair<>(styles.get(i).name, total));
+            archiResult.add(new Pair<>(style.name, total));
         }
-       // System.out.println(archiResult.size());
-        Comparator<Pair<String,Double>> comparator = Comparator.comparing(Pair::getSecond);
+        Comparator<Pair<String, Double>> comparator = Comparator.comparing(Pair::getSecond);
 
-        return  archiResult.stream().sorted(comparator.reversed()).
+        return archiResult.stream().sorted(comparator.reversed()).
                 collect(Collectors.toList());
     }
 }
