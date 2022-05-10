@@ -1,9 +1,10 @@
 package test;
+import org.junit.Test;
 
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
-import org.junit.Test;
 import java.io.InputStream;
+
 public class TestMe {
     @Test
     public void givenEnglishModel_whenTokenize_thenTokensAreDetected() throws Exception {
@@ -15,3 +16,5 @@ public class TestMe {
     }
 
 }
+
+
