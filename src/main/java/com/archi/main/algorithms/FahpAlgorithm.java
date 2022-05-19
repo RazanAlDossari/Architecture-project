@@ -16,6 +16,8 @@ public class FahpAlgorithm {
         List<Pair<String, Double>> weightedQAForFAHP = runFahp(pair);
 
         for (Pair<String, Double> stringDoublePair : weightedQAForFAHP) {
+          // System.out.println("------------------------razan-------------------------");
+           // System.out.println(stringDoublePair.getFirst()+stringDoublePair.getSecond());
          mainQAWithSingleWeight.add(new MainQAWithSingleWeight(stringDoublePair.getFirst(), stringDoublePair));
         }
 

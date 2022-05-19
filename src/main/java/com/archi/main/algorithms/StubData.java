@@ -1,7 +1,6 @@
 package com.archi.main.algorithms;
 
 import com.archi.main.algorithms.data_model.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +48,9 @@ public class StubData {
         return qaPair;
     }
 
-    public static void getInputNFRs() {
+    public static List<QualityAttributePair> getInputNFRs() {
         //todo: we need to assign the scale of each QA and SUB-QA
+
         List<Pair<String, Double>> scaleQAs = new ArrayList<>();
         scaleQAs.add(new Pair<>(Usability, 9.0));
         scaleQAs.add(new Pair<>(Maintainability, 7.0));
@@ -60,16 +60,16 @@ public class StubData {
 
         for (int i = 0; i < scaleQAs.size(); i++) {
             for (int j = i; j < scaleQAs.size(); j++) {
-                double diff = scaleQAs.get(i).getSecond() - scaleQAs.get(j).getSecond() + 1;
+                double diff = (scaleQAs.get(i).getSecond() - scaleQAs.get(j).getSecond()) + 1;
                 if (diff < 1) {
                     diff = 1 / (scaleQAs.get(j).getSecond() - scaleQAs.get(i).getSecond() + 1);
                 }
-
                 QualityAttributePair test = new QualityAttributePair(scaleQAs.get(i).getFirst(), scaleQAs.get(j).getFirst(), diff);
                 qaPair.add(test);
                 System.out.println("pair comparison: " + test.getQualityAttributeA() + "||" + test.getQualityAttributeB() + "||" + test.getScale());
             }
         }
+        return qaPair;
     }
 
 

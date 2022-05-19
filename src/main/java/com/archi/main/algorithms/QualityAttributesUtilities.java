@@ -5,6 +5,7 @@ import com.archi.main.algorithms.data_model.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import static com.archi.main.algorithms.StubData.setStylesRanks;
 
 public final class QualityAttributesUtilities {
@@ -73,7 +74,8 @@ public final class QualityAttributesUtilities {
         return qaPairsByMainQa;
     }
 
-    public static List<Pair<String, Double>> calculateScore(List<MainQAWithSubWeights> finalWeightForEachSubQA) {
+
+    public static List<Pair<String, Double>> calculateScore(List<MainQAWithSingleWeight> mainQAWithSingleWeight) {
         ArrayList<ArchitectureStyle> styles = setStylesRanks();
         List<Pair<String, Double>> archiResult = new ArrayList<>();
         for (ArchitectureStyle style : styles) {
@@ -81,24 +83,16 @@ public final class QualityAttributesUtilities {
             double total = 0;
 
             for (MainCriteria selectedStyleMainAttribute : selectedStyleMainAttributes) {
-                //todo: get main Attribute and subList to multiply it with the score
                 String selectedMainName = selectedStyleMainAttribute.name;
-
-                ArrayList<SubCriteria> selectedSubList = selectedStyleMainAttribute.subCriteria;
-
-                List<MainQAWithSubWeights> result = finalWeightForEachSubQA.stream()
+                int selectedMainScore = selectedStyleMainAttribute.score;
+                //we will have only one item
+                List<MainQAWithSingleWeight> result = mainQAWithSingleWeight.stream()
                         .filter(item -> item.getMainQA().equals(selectedMainName)).toList();
 
-                List<Pair<String, Double>> subAttribute = result.get(0).getSubQAList();
-                //todo: loop to each subCriteria of the style
-                for (SubCriteria currentSub : selectedSubList) {
-                    List<Pair<String, Double>> resultSub = subAttribute.stream()
-                            .filter(item ->
-                                    item.getFirst().equals(currentSub.name)
-                            ).toList();
-                    if (resultSub.size() != 0)
-                        total += currentSub.score * resultSub.get(0).getSecond();
-                }
+                 if (result.size() != 0){
+                     //I will calculate all the main QA for each ArchitectureStyle
+                     total += selectedMainScore * result.get(0).getMainQAWeight().getSecond();
+                 }
             }
             archiResult.add(new Pair<>(style.name, total));
         }
@@ -107,4 +101,39 @@ public final class QualityAttributesUtilities {
         return archiResult.stream().sorted(comparator.reversed()).
                 collect(Collectors.toList());
     }
+
+//    public static List<Pair<String, Double>> calculateScoreOfSubQAs(List<MainQAWithSubWeights> finalWeightForEachSubQA) {
+//        ArrayList<ArchitectureStyle> styles = setStylesRanks();
+//        List<Pair<String, Double>> archiResult = new ArrayList<>();
+//        for (ArchitectureStyle style : styles) {
+//            ArrayList<MainCriteria> selectedStyleMainAttributes = style.mainCriteria;
+//            double total = 0;
+//
+//            for (MainCriteria selectedStyleMainAttribute : selectedStyleMainAttributes) {
+//                //todo: get main Attribute and subList to multiply it with the score
+//                String selectedMainName = selectedStyleMainAttribute.name;
+//
+//                ArrayList<SubCriteria> selectedSubList = selectedStyleMainAttribute.subCriteria;
+//
+//                List<MainQAWithSubWeights> result = finalWeightForEachSubQA.stream()
+//                        .filter(item -> item.getMainQA().equals(selectedMainName)).toList();
+//
+//                List<Pair<String, Double>> subAttribute = result.get(0).getSubQAList();
+//                //todo: loop to each subCriteria of the style
+//                for (SubCriteria currentSub : selectedSubList) {
+//                    List<Pair<String, Double>> resultSub = subAttribute.stream()
+//                            .filter(item ->
+//                                    item.getFirst().equals(currentSub.name)
+//                            ).toList();
+//                    if (resultSub.size() != 0)
+//                        total += currentSub.score * resultSub.get(0).getSecond();
+//                }
+//            }
+//            archiResult.add(new Pair<>(style.name, total));
+//        }
+//        Comparator<Pair<String, Double>> comparator = Comparator.comparing(Pair::getSecond);
+//
+//        return archiResult.stream().sorted(comparator.reversed()).
+//                collect(Collectors.toList());
+//    }
 }
