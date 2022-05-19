@@ -5,13 +5,11 @@ import com.archi.main.algorithms.data_model.*;
 import java.util.*;
 import static com.archi.main.algorithms.QualityAttributesUtilities.calculateScore;
 import static com.archi.main.algorithms.StubData.getInputNFRs;
-import static com.archi.main.algorithms.StubData.getQAPair;
-import static com.archi.main.algorithms.Utils.getDataForJson;
 
 public class TestApp {
     public static void main(String[] args) {
         //main QAPair
-        getDataForJson();
+       // getDataForJson();
 
         List<QualityAttributePair> qaPair = getInputNFRs();///getQAPair();
         //list of main QA with their weight

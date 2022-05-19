@@ -1,94 +1,125 @@
 package com.archi.main.algorithms;
 
-
+import com.archi.main.algorithms.data_model.ArchitectureStyle;
 import com.archi.main.algorithms.data_model.ArchitectureStyles;
 import com.google.gson.Gson;
+import java.util.ArrayList;
 
 public class Utils {
 
-
-    public static  void getDataForJson(){
-        final  String jsonString = "{\"architectureStyle\":[{\"name\":\"Pipe and filter\",\"mainCriteria\":[{\"name\":\"Usability\",\"score\":\"1\",\"subCriteria\":[{\"name\":\"Learnability\",\"score\":\"1\"},{\"name\":\"Operability\",\"score\":\"3\"}]},{\"name\":\"Reliability\",\"score\":\"1\",\"subCriteria\":[{\"name\":\"Maturity\",\"score\":\"1\"},{\"name\":\"Fault-tolerance\",\"score\":\"3\"},{\"name\":\"Recoverability\",\"score\":\"3\"}]},{\"name\":\"Maintainability\",\"score\":\"1\",\"subCriteria\":[{\"name\":\"Analyzability\",\"score\":\"1\"},{\"name\":\"Modifiability\",\"score\":\"3\"},{\"name\":\"Testability\",\"score\":\"3\"}]},{\"name\":\"Portability\",\"score\":\"1\",\"subCriteria\":[{\"name\":\"Adaptability\",\"score\":\"1\"},{\"name\":\"Installability\",\"score\":\"3\"},{\"name\":\"Replaceability\",\"score\":\"3\"}]}]},{\"name\":\"mvc\",\"mainCriteria\":[{\"name\":\"Usability\",\"score\":\"1\",\"subCriteria\":[{\"name\":\"Learnability\",\"score\":\"1\"},{\"name\":\"Operability\",\"score\":\"3\"}]},{\"name\":\"Reliability\",\"score\":\"1\",\"subCriteria\":[{\"name\":\"Maturity\",\"score\":\"1\"},{\"name\":\"Fault-tolerance\",\"score\":\"3\"},{\"name\":\"Recoverability\",\"score\":\"3\"}]},{\"name\":\"Maintainability\",\"score\":\"1\",\"subCriteria\":[{\"name\":\"Analyzability\",\"score\":\"1\"},{\"name\":\"Modifiability\",\"score\":\"3\"},{\"name\":\"Testability\",\"score\":\"3\"}]},{\"name\":\"Portability\",\"score\":\"1\",\"subCriteria\":[{\"name\":\"Adaptability\",\"score\":\"1\"},{\"name\":\"Installability\",\"score\":\"3\"},{\"name\":\"Replaceability\",\"score\":\"3\"}]}]}]}";
+    public static ArrayList<ArchitectureStyle> getDataForJson() {
+        final String jsonString = "{\n" +
+                "  \"architectureStyle\": [\n" +
+                "    {\n" +
+                "      \"name\": \"Pipe and filter\",\n" +
+                "      \"mainCriteria\": [\n" +
+                "        {\n" +
+                "          \"name\": \"Usability\",\n" +
+                "          \"score\": \"-2\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Reliability\",\n" +
+                "          \"score\": \"1\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Maintainability\",\n" +
+                "          \"score\": \"1\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Scalability\",\n" +
+                "          \"score\": \"0\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Performance\",\n" +
+                "          \"score\": \"0\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Availability\",\n" +
+                "          \"score\": \"0\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Security\",\n" +
+                "          \"score\": \"0\"\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"mvc\",\n" +
+                "      \"mainCriteria\": [\n" +
+                "        {\n" +
+                "          \"name\": \"Usability\",\n" +
+                "          \"score\": \"1\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Reliability\",\n" +
+                "          \"score\": \"0\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Maintainability\",\n" +
+                "          \"score\": \"1\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Scalability\",\n" +
+                "          \"score\": \"0\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Performance\",\n" +
+                "          \"score\": \"0\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Availability\",\n" +
+                "          \"score\": \"1\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"name\": \"Security\",\n" +
+                "          \"score\": \"0\"\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
         Gson g = new Gson();
         ArchitectureStyles styles = g.fromJson(jsonString, ArchitectureStyles.class);
-        System.out.println("test "+styles.architectureStyle.size());
+        System.out.println("test " + styles.architectureStyle.size());
+        return styles.architectureStyle;
+
     }
 }
 
 /*
 *
- {
+{
   "architectureStyle": [
     {
       "name": "Pipe and filter",
       "mainCriteria": [
         {
           "name": "Usability",
-          "score": "1",
-          "subCriteria": [
-            {
-              "name": "Learnability",
-              "score": "1"
-            },
-            {
-              "name": "Operability",
-              "score": "3"
-            }
-          ]
+          "score": "-2"
         },
         {
           "name": "Reliability",
-          "score": "1",
-          "subCriteria": [
-            {
-              "name": "Maturity",
-              "score": "1"
-            },
-            {
-              "name": "Fault-tolerance",
-              "score": "3"
-            },
-            {
-              "name": "Recoverability",
-              "score": "3"
-            }
-          ]
+          "score": "1"
         },
         {
           "name": "Maintainability",
-          "score": "1",
-          "subCriteria": [
-            {
-              "name": "Analyzability",
-              "score": "1"
-            },
-            {
-              "name": "Modifiability",
-              "score": "3"
-            },
-            {
-              "name": "Testability",
-              "score": "3"
-            }
-          ]
+          "score": "1"
         },
         {
-          "name": "Portability",
-          "score": "1",
-          "subCriteria": [
-            {
-              "name": "Adaptability",
-              "score": "1"
-            },
-            {
-              "name": "Installability",
-              "score": "3"
-            },
-            {
-              "name": "Replaceability",
-              "score": "3"
-            }
-          ]
+          "name": "Scalability",
+          "score": "0"
+        },
+        {
+          "name": "Performance",
+          "score": "0"
+        },
+        {
+          "name": "Availability",
+          "score": "0"
+        },
+        {
+          "name": "Security",
+          "score": "0"
         }
       ]
     },
@@ -97,71 +128,31 @@ public class Utils {
       "mainCriteria": [
         {
           "name": "Usability",
-          "score": "1",
-          "subCriteria": [
-            {
-              "name": "Learnability",
-              "score": "1"
-            },
-            {
-              "name": "Operability",
-              "score": "3"
-            }
-          ]
+          "score": "1"
         },
         {
           "name": "Reliability",
-          "score": "1",
-          "subCriteria": [
-            {
-              "name": "Maturity",
-              "score": "1"
-            },
-            {
-              "name": "Fault-tolerance",
-              "score": "3"
-            },
-            {
-              "name": "Recoverability",
-              "score": "3"
-            }
-          ]
+          "score": "0"
         },
         {
           "name": "Maintainability",
-          "score": "1",
-          "subCriteria": [
-            {
-              "name": "Analyzability",
-              "score": "1"
-            },
-            {
-              "name": "Modifiability",
-              "score": "3"
-            },
-            {
-              "name": "Testability",
-              "score": "3"
-            }
-          ]
+          "score": "1"
         },
         {
-          "name": "Portability",
-          "score": "1",
-          "subCriteria": [
-            {
-              "name": "Adaptability",
-              "score": "1"
-            },
-            {
-              "name": "Installability",
-              "score": "3"
-            },
-            {
-              "name": "Replaceability",
-              "score": "3"
-            }
-          ]
+          "name": "Scalability",
+          "score": "0"
+        },
+        {
+          "name": "Performance",
+          "score": "0"
+        },
+        {
+          "name": "Availability",
+          "score": "1"
+        },
+        {
+          "name": "Security",
+          "score": "0"
         }
       ]
     }
