@@ -11,28 +11,29 @@ import static com.archi.main.algorithms.StubData.getInputNFRs;
 public class TestApp {
     public static void main(String[] args) throws IOException {
 
-      TeraClassification tera = new TeraClassification();
-          //  tera.ReadTearData();
-         //  System.out.println(tera.ExtractProjectsUserStory());
-          System.out.println("Project1 = "+tera.Project1_QualityAttributes());
-          System.out.println("Project2 = "+tera.Project2_QualityAttributes());
-          System.out.println("Project3 = "+tera.Project3_QualityAttributes());
-          System.out.println("Project4 = "+tera.Project4_QualityAttributes());
-          System.out.println("Project5 = "+tera.Project5_QualityAttributes());
-          System.out.println("Project6 = "+tera.Project6_QualityAttributes());
-          System.out.println("Project7 = "+tera.Project7_QualityAttributes());
-          System.out.println("Project8 = "+tera.Project8_QualityAttributes());
-          System.out.println("Project9 = "+tera.Project9_QualityAttributes());
-          System.out.println("Project10 = "+tera.Project10_QualityAttributes());
-          System.out.println("Project11 = "+tera.Project11_QualityAttributes());
-          System.out.println("Project12 = "+tera.Project12_QualityAttributes());
-          System.out.println("Project13 = "+tera.Project13_QualityAttributes());
-          System.out.println("Project14 = "+tera.Project14_QualityAttributes());
-          System.out.println("Project15 = "+tera.Project15_QualityAttributes());
+        TeraClassification tera = new TeraClassification();
+        //  tera.ReadTearData();
+        //  System.out.println(tera.ExtractProjectsUserStory());
+        System.out.println("Project1 = " + tera.Project1_QualityAttributes());
+        System.out.println("Project2 = " + tera.Project2_QualityAttributes());
+        System.out.println("Project3 = " + tera.Project3_QualityAttributes());
+        System.out.println("Project4 = " + tera.Project4_QualityAttributes());
+        System.out.println("Project5 = " + tera.Project5_QualityAttributes());
+        System.out.println("Project6 = " + tera.Project6_QualityAttributes());
+        System.out.println("Project7 = " + tera.Project7_QualityAttributes());
+        System.out.println("Project8 = " + tera.Project8_QualityAttributes());
+        System.out.println("Project9 = " + tera.Project9_QualityAttributes());
+        System.out.println("Project10 = " + tera.Project10_QualityAttributes());
+        System.out.println("Project11 = " + tera.Project11_QualityAttributes());
+        System.out.println("Project12 = " + tera.Project12_QualityAttributes());
+        System.out.println("Project13 = " + tera.Project13_QualityAttributes());
+        System.out.println("Project14 = " + tera.Project14_QualityAttributes());
+        System.out.println("Project15 = " + tera.Project15_QualityAttributes());
 
+    }
+}
 
-
-     /*
+/*
         //main QAPair
        // getDataForJson();
 
@@ -82,4 +83,5 @@ public class TestApp {
 //        }
 //        return qaMapper;
 //    }
-}
+//}
+*/
