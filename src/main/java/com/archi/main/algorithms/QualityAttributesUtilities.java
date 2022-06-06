@@ -1,15 +1,14 @@
 package com.archi.main.algorithms;
 
 import com.archi.main.algorithms.data_model.*;
-
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import static com.archi.main.algorithms.Utils.getDataForJson;
+
+import static com.archi.main.algorithms.Utils.getArchitectureStyles;
 
 public final class QualityAttributesUtilities {
 
-    public static Pair<String[], Triplet[][]> getQAMatrix(List<QualityAttributePair> qaPair) {
+    public static Pair<String[], Triplet[][]> getFAHPQAMatrix(List<QualityAttributePair> qaPair) {
         String[] mainQA = getMainQualityAttributes(qaPair);
         int distinctQASize = mainQA.length;
         Triplet[][] qaMatrix = new Triplet[distinctQASize][distinctQASize];
@@ -17,7 +16,7 @@ public final class QualityAttributesUtilities {
         for (int rowIndex = 0; rowIndex < distinctQASize; rowIndex++) {
             for (int colIndex = 0; colIndex < distinctQASize; colIndex++) {
                 if (colIndex < rowIndex) {
-                    qaMatrix[rowIndex][colIndex] = getTripletIInverseBasedOnScale(qaMatrix[colIndex][rowIndex].getMiddle());
+                    qaMatrix[rowIndex][colIndex] = getTripletInverseBasedOnScale(qaMatrix[colIndex][rowIndex].getMiddle());
                 } else {
                     qaMatrix[rowIndex][colIndex] = getTripletBasedOnScale(qaPair.get(index).getScale());
                     index++;
@@ -46,19 +45,19 @@ public final class QualityAttributesUtilities {
         if (scale > 1.0)
             return new Triplet(scale - 1, scale, scale + 1);
         else {
-            double orgNumber = Double.parseDouble(new DecimalFormat("###.0").format(1.0 / scale));
+            double orgNumber = 1.0 / scale;
             return new Triplet(1 / (orgNumber + 1), 1 / orgNumber, 1 / (orgNumber - 1));
         }
     }
 
-    private static Triplet getTripletIInverseBasedOnScale(double scale) {
+    private static Triplet getTripletInverseBasedOnScale(double scale) {
         if (scale == 1.0) return new Triplet(1.0, 1.0, 1.0);
         else if (scale == 9.0)
             return new Triplet(1.0 / 9.0, 1.0 / 9.0, 1.0 / 9.0);
         if (scale > 1.0)
             return new Triplet(1.0 / (scale + 1), 1.0 / scale, 1.0 / (scale - 1));
         else {
-            double orgNumber = Double.parseDouble(new DecimalFormat("###.0").format(1.0 / scale));
+            double orgNumber = 1.0 / scale;//Double.parseDouble(new DecimalFormat("###.0").format(1.0 / scale));
             return new Triplet(orgNumber - 1, orgNumber, orgNumber + 1);
         }
     }
@@ -72,14 +71,15 @@ public final class QualityAttributesUtilities {
         return qaPairsByMainQa;
     }
 
-
     public static List<Pair<String, Double>> calculateScore(List<MainQAWithSingleWeight> mainQAWithSingleWeight) {
-        ArrayList<ArchitectureStyle> styles =  getDataForJson();//setStylesRanks();
+        ArrayList<ArchitectureStyle> styles = getArchitectureStyles();
         List<Pair<String, Double>> archiResult = new ArrayList<>();
+        System.out.println();
+        System.out.println();
         for (ArchitectureStyle style : styles) {
             ArrayList<MainCriteria> selectedStyleMainAttributes = style.mainCriteria;
             double total = 0;
-
+            System.out.println("#####" + style.name + "#####");
             for (MainCriteria selectedStyleMainAttribute : selectedStyleMainAttributes) {
                 String selectedMainName = selectedStyleMainAttribute.name;
                 int selectedMainScore = selectedStyleMainAttribute.score;
@@ -87,10 +87,12 @@ public final class QualityAttributesUtilities {
                 List<MainQAWithSingleWeight> result = mainQAWithSingleWeight.stream()
                         .filter(item -> item.getMainQA().equals(selectedMainName)).toList();
 
-                 if (result.size() != 0){
-                     //I will calculate all the main QA for each ArchitectureStyle
-                     total += selectedMainScore * result.get(0).getMainQAWeight().getSecond();
-                 }
+                if (result.size() != 0) {
+                    //I will calculate all the main QA for each ArchitectureStyle
+                    total += selectedMainScore * result.get(0).getMainQAWeight().getSecond();
+                    System.out.println(result.get(0).getMainQA());
+                    System.out.println(selectedMainScore + "*" + result.get(0).getMainQAWeight().getSecond() + "=" + total);
+                }
             }
             archiResult.add(new Pair<>(style.name, total));
         }
@@ -100,10 +102,13 @@ public final class QualityAttributesUtilities {
                 collect(Collectors.toList());
     }
 
-    public static Double getCalculation(Integer second, int coreQAs) {
+    public static Integer getCalculation(double qaCounter, int coreQAs) {
         //Percentage for each core attribute
-        double percentage = second / coreQAs;
+        double percentage = qaCounter / coreQAs;
         //Final percentage for each quality
-        return (double) (16 / coreQAs) * percentage;
+        double result = (double) (16 / (double)coreQAs) * percentage;
+        System.out.println("razan "+Math.ceil(result));
+
+        return (int) Math.ceil(result);
     }
 }
