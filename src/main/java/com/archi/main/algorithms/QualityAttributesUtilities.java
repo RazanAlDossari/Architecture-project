@@ -107,7 +107,6 @@ public final class QualityAttributesUtilities {
         double percentage = qaCounter / coreQAs;
         //Final percentage for each quality
         double result = (double) (16 / (double)coreQAs) * percentage;
-        System.out.println("razan "+Math.ceil(result));
 
         return (int) Math.ceil(result);
     }

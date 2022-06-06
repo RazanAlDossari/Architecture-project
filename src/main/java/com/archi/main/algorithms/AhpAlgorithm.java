@@ -169,8 +169,6 @@ public class AhpAlgorithm {
         for (double minimumWeight : minimumWeights) {
             totalWeight += minimumWeight;
         }
-        for (int i = 0; i < qaAttribute.length; i++)
-        System.out.println(minimumWeights.length+"razan1111::"+qaAttribute[i]);
 
         if (totalWeight != 0)
             for (int i = 0; i < minimumWeights.length; i++) {
